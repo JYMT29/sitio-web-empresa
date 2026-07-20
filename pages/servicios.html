@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servicios - Mi Empresa</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      /* Estilos específicos para la página de servicios */
+      .services-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .services-header {
+        text-align: center;
+        padding: 40px 0;
+        background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 40px;
+      }
+
+      .services-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .services-header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+      }
+
+      .service-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .service-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #e8f0fe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4em;
+        color: #1a73e8;
+      }
+
+      .service-content {
+        padding: 25px;
+      }
+
+      .service-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #1a73e8;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+      .service-title {
+        color: #1a73e8;
+        font-size: 1.4em;
+        margin-bottom: 10px;
+      }
+
+      .service-description {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .service-features {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0;
+      }
+
+      .service-features li {
+        padding: 5px 0;
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      .service-features li::before {
+        content: "✓ ";
+        color: #1a73e8;
+        font-weight: bold;
+      }
+
+      .service-price {
+        display: inline-block;
+        background: #e8f0fe;
+        color: #1a73e8;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .service-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 25px;
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+      }
+
+      .service-button:hover {
+        background: #1557b0;
+        text-decoration: none;
+        color: white;
+      }
+
+      /* Navegación */
+      .nav-menu {
+        background: #1a73e8;
+        padding: 15px 0;
+        margin-bottom: 30px;
+      }
+
+      .nav-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .nav-menu ul li a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .nav-menu ul li a:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-menu ul li a.active {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Footer */
+      .footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+      }
+
+      .footer a {
+        color: #1a73e8;
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .services-header h1 {
+          font-size: 2em;
+        }
+
+        .nav-menu ul {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Menú de Navegación -->
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="../menu.html">🏠 Inicio</a></li>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="servicios.html" class="active">💼 Servicios</a></li>
+        <li><a href="api-usuarios.html">📊 Usuarios API</a></li>
+        <li><a href="api-clima.html">🌤️ Clima API</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="services-container">
+      <!-- Header -->
+      <div class="services-header">
+        <h1>🚀 Nuestros Servicios</h1>
+        <p>Soluciones tecnológicas innovadoras para tu negocio</p>
+      </div>
+
+      <!-- Grid de Servicios -->
+      <div class="services-grid">
+        <!-- Servicio 1: Desarrollo Web -->
+        <div class="service-card">
+          <div class="service-image">🌐</div>
+          <div class="service-badge">Popular</div>
+          <div class="service-content">
+            <h3 class="service-title">Desarrollo Web</h3>
+            <p class="service-description">
+              Creamos sitios web modernos, responsivos y optimizados para
+              brindar la mejor experiencia a tus usuarios.
+            </p>
+            <ul class="service-features">
+              <li>Diseño responsivo</li>
+              <li>Optimización SEO</li>
+              <li>Rendimiento rápido</li>
+              <li>Seguridad avanzada</li>
+            </ul>
+            <span class="service-price">Desde $500</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 2: Apps Móviles -->
+        <div class="service-card">
+          <div class="service-image">📱</div>
+          <div class="service-content">
+            <h3 class="service-title">Aplicaciones Móviles</h3>
+            <p class="service-description">
+              Desarrollamos apps nativas e híbridas para iOS y Android que
+              conectan con tu audiencia.
+            </p>
+            <ul class="service-features">
+              <li>Apps nativas e híbridas</li>
+              <li>UI/UX optimizada</li>
+              <li>Integración con APIs</li>
+              <li>Publicación en stores</li>
+            </ul>
+            <span class="service-price">Desde $800</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 3: Consultoría -->
+        <div class="service-card">
+          <div class="service-image">💡</div>
+          <div class="service-content">
+            <h3 class="service-title">Consultoría Tecnológica</h3>
+            <p class="service-description">
+              Asesoramos a tu empresa en la implementación de soluciones
+              tecnológicas para optimizar tus procesos.
+            </p>
+            <ul class="service-features">
+              <li>Análisis de necesidades</li>
+              <li>Planificación estratégica</li>
+              <li>Implementación de sistemas</li>
+              <li>Capacitación de personal</li>
+            </ul>
+            <span class="service-price">Desde $300/hora</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 4: Soporte -->
+        <div class="service-card">
+          <div class="service-image">🛠️</div>
+          <div class="service-content">
+            <h3 class="service-title">Soporte Técnico</h3>
+            <p class="service-description">
+              Brindamos soporte 24/7 para garantizar que tus sistemas funcionen
+              sin interrupciones.
+            </p>
+            <ul class="service-features">
+              <li>Soporte 24/7</li>
+              <li>Resolución rápida</li>
+              <li>Mantenimiento preventivo</li>
+              <li>Actualizaciones de seguridad</li>
+            </ul>
+            <span class="service-price">Desde $200/mes</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 5: Seguridad Informática -->
+        <div class="service-card">
+          <div class="service-image">🔒</div>
+          <div class="service-badge">Nuevo</div>
+          <div class="service-content">
+            <h3 class="service-title">Seguridad Informática</h3>
+            <p class="service-description">
+              Protegemos tu infraestructura digital contra amenazas y
+              vulnerabilidades cibernéticas.
+            </p>
+            <ul class="service-features">
+              <li>Auditoría de seguridad</li>
+              <li>Prevención de ataques</li>
+              <li>Firewall avanzado</li>
+              <li>Encriptación de datos</li>
+            </ul>
+            <span class="service-price">Desde $600</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 6: Marketing Digital (Extra) -->
+        <div class="service-card">
+          <div class="service-image">📈</div>
+          <div class="service-content">
+            <h3 class="service-title">Marketing Digital</h3>
+            <p class="service-description">
+              Estrategias de marketing digital para aumentar tu visibilidad y
+              ventas en línea.
+            </p>
+            <ul class="service-features">
+              <li>SEO/SEM</li>
+              <li>Redes sociales</li>
+              <li>Email marketing</li>
+              <li>Analítica web</li>
+            </ul>
+            <span class="service-price">Desde $400</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Transformando ideas en soluciones digitales</p>
+    </footer>
+  </body>
+</html>
