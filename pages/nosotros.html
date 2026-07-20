@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nosotros</title>
+    <style>
+      /* Estilos Generales */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #e5e0d8; /* Fondo beige de la imagen */
+        color: #333;
+      }
+
+      /* Barra de Navegación */
+      nav {
+        background-color: #1e73e8;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 4px;
+      }
+
+      nav a.active {
+        background-color: #4285f4;
+        font-weight: bold;
+      }
+
+      /* Contenedor Principal */
+      .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      /* Banner Principal Azul */
+      .hero-banner {
+        background-color: #1a5bb8;
+        color: white;
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero-banner h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .hero-banner p {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      /* Grid de Secciones (Tarjetas) */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      /* Tarjetas */
+      .card {
+        background-color: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-header {
+        background-color: #f0f4ff;
+        padding: 30px;
+        text-align: center;
+        font-size: 48px;
+      }
+
+      .card-body {
+        padding: 25px;
+        flex-grow: 1;
+      }
+
+      .card-title {
+        color: #1e73e8;
+        font-size: 20px;
+        margin-bottom: 12px;
+        font-weight: bold;
+      }
+
+      .card-text {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      .card-img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Menú de Navegación -->
+    <nav>
+      <a href="../index.html">🏠 Inicio</a>
+      <a href="nosotros.html" class="active">👥 Nosotros</a>
+      <a href="galeria.html">🖼️ Galería</a>
+      <a href="servicios.html">💼 Servicios</a>
+      <a href="usuarios.html">📊 Usuarios API</a>
+      <a href="clima.html">🌤️ Clima API</a>
+      <a href="contacto.html">✉️ Contacto</a>
+    </nav>
+
+    <div class="container">
+      <!-- Banner de Encabezado -->
+      <div class="hero-banner">
+        <h1>👥 Sobre Nosotros</h1>
+        <p>
+          Conoce quiénes somos, nuestra trayectoria y hacia dónde nos dirigimos
+        </p>
+      </div>
+
+      <!-- Sección de Tarjetas -->
+      <div class="cards-grid">
+        <!-- Tarjeta 1: Historia -->
+        <div class="card">
+          <div class="card-header">📖</div>
+          <div class="card-body">
+            <h2 class="card-title">Nuestra Historia</h2>
+            <p class="card-text">
+              Nacimos con el objetivo de brindar soluciones tecnológicas e
+              innovadoras para empresas en crecimiento. A lo largo de los años,
+              nos hemos consolidado gracias a nuestro compromiso con la calidad
+              y la mejora continua.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Misión -->
+        <div class="card">
+          <div class="card-header">🎯</div>
+          <div class="card-body">
+            <h2 class="card-title">Misión</h2>
+            <p class="card-text">
+              Proveer servicios digitales de alto valor que impulsen la
+              transformación y productividad de nuestros clientes, garantizando
+              eficiencia, seguridad y un diseño accesible en cada proyecto.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Visión e Imagen -->
+        <div class="card">
+          <div class="card-header">👁️</div>
+          <div class="card-body">
+            <h2 class="card-title">Visión</h2>
+            <p class="card-text">
+              Ser líderes reconocidos en el sector tecnológico, destacándonos
+              por la innovación de nuestras soluciones y el impacto positivo que
+              generamos en las organizaciones.
+            </p>
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
+              alt="Nuestro Equipo"
+              class="card-img"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
