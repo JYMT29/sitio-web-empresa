@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Mi Empresa</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      /* Estilos específicos para el Login */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #e8f0fe 0%, #1a73e8 100%);
+        padding: 20px;
+      }
+
+      .login-wrapper {
+        width: 100%;
+        max-width: 450px;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-card {
+        background: white;
+        border-radius: 20px;
+        padding: 50px 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s;
+      }
+
+      .login-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .login-logo {
+        font-size: 3.5em;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .login-header h1 {
+        color: #1a73e8;
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .login-header p {
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 0.95em;
+      }
+
+      .form-group .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 42px;
+        font-size: 1.2em;
+        color: #999;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 14px 15px 14px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1em;
+        transition: all 0.3s;
+        background: #f8f9fa;
+        color: #333;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #1a73e8;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+      }
+
+      .form-group input::placeholder {
+        color: #999;
+      }
+
+      .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0 10px 0;
+      }
+
+      .form-options label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #666;
+        font-size: 0.9em;
+        cursor: pointer;
+      }
+
+      .form-options label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #1a73e8;
+        cursor: pointer;
+      }
+
+      .form-options a {
+        color: #1a73e8;
+        text-decoration: none;
+        font-size: 0.9em;
+        font-weight: 500;
+      }
+
+      .form-options a:hover {
+        text-decoration: underline;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
+      }
+
+      .login-btn:active {
+        transform: translateY(0);
+      }
+
+      .login-btn i {
+        font-size: 1.2em;
+      }
+
+      .login-footer {
+        text-align: center;
+        margin-top: 25px;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .login-footer a {
+        color: #1a73e8;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .login-footer a:hover {
+        text-decoration: underline;
+      }
+
+      .error-message {
+        background: #fee;
+        color: #c00;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border-left: 4px solid #c00;
+        display: none;
+        font-size: 0.9em;
+      }
+
+      .error-message.show {
+        display: block;
+        animation: shake 0.5s;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-10px);
+        }
+        75% {
+          transform: translateX(10px);
+        }
+      }
+
+      .success-message {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border-left: 4px solid #2e7d32;
+        display: none;
+        font-size: 0.9em;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      /* Estilos para el pie de página del login */
+      .login-extra {
+        text-align: center;
+        margin-top: 20px;
+        color: white;
+        font-size: 0.85em;
+        opacity: 0.8;
+      }
+
+      .login-extra a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .login-extra a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        .login-card {
+          padding: 30px 20px;
+        }
+
+        .login-header h1 {
+          font-size: 1.6em;
+        }
+
+        .form-options {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+
+        .login-logo {
+          font-size: 2.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <div class="login-card">
+        <!-- Header -->
+        <div class="login-header">
+          <span class="login-logo">🏢</span>
+          <h1>Mi Empresa</h1>
+          <p>Inicia sesión para acceder al sistema</p>
+        </div>
+
+        <!-- Mensaje de Error -->
+        <div class="error-message" id="errorMessage">
+          ⚠️ <span id="errorText">Usuario o contraseña incorrectos</span>
+        </div>
+
+        <!-- Mensaje de Éxito -->
+        <div class="success-message" id="successMessage">
+          ✅ <span id="successText">¡Bienvenido! Redirigiendo...</span>
+        </div>
+
+        <!-- Formulario -->
+        <form
+          class="login-form"
+          id="loginForm"
+          onsubmit="return validarLogin(event);"
+        >
+          <div class="form-group">
+            <label for="username">👤 Usuario</label>
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              id="username"
+              placeholder="Ingresa tu usuario"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">🔒 Contraseña</label>
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="password"
+              placeholder="Ingresa tu contraseña"
+              required
+            />
+          </div>
+
+          <div class="form-options">
+            <label>
+              <input type="checkbox" id="remember" />
+              Recordarme
+            </label>
+            <a href="#">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="login-btn">
+            <span>🚀</span> Iniciar Sesión
+          </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="login-footer">
+          ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
+        </div>
+      </div>
+
+      <!-- Extra Footer -->
+      <div class="login-extra">
+        <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      </div>
+    </div>
+
+    <script>
+      // Función para validar el login
+      function validarLogin(event) {
+        event.preventDefault(); // Evita que el formulario se envíe
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMessage = document.getElementById("errorMessage");
+        const successMessage = document.getElementById("successMessage");
+        const errorText = document.getElementById("errorText");
+
+        // Ocultar mensajes anteriores
+        errorMessage.classList.remove("show");
+        successMessage.classList.remove("show");
+
+        // Validar que los campos no estén vacíos
+        if (username === "" || password === "") {
+          errorText.textContent = "Por favor, completa todos los campos";
+          errorMessage.classList.add("show");
+          return false;
+        }
+
+        // Validar credenciales (ejemplo simple)
+        // Puedes cambiar el usuario y contraseña aquí
+        const validUsername = "admin";
+        const validPassword = "123456";
+
+        if (username === validUsername && password === validPassword) {
+          // Login exitoso
+          successMessage.classList.add("show");
+          document.getElementById("successText").textContent =
+            "¡Bienvenido " + username + "! Redirigiendo...";
+
+          // Redirigir al menú principal después de 1.5 segundos
+          setTimeout(function () {
+            window.location.href = "menu.html";
+          }, 1500);
+        } else {
+          // Login fallido
+          errorText.textContent =
+            "Usuario o contraseña incorrectos. Intenta nuevamente.";
+          errorMessage.classList.add("show");
+
+          // Limpiar campos
+          document.getElementById("password").value = "";
+          document.getElementById("password").focus();
+        }
+
+        return false;
+      }
+
+      // Permitir presionar Enter para enviar el formulario
+      document.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          const form = document.getElementById("loginForm");
+          if (form) {
+            form.dispatchEvent(new Event("submit"));
+          }
+        }
+      });
+
+      // Animación de entrada al cargar
+      document.addEventListener("DOMContentLoaded", function () {
+        const wrapper = document.querySelector(".login-wrapper");
+        wrapper.style.opacity = "0";
+        setTimeout(function () {
+          wrapper.style.opacity = "1";
+          wrapper.style.animation = "fadeInUp 0.8s ease-out";
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
