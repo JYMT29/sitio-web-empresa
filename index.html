@@ -123,6 +123,11 @@
         color: #999;
       }
 
+      .form-group input:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
       .form-options {
         display: flex;
         justify-content: space-between;
@@ -182,6 +187,13 @@
 
       .login-btn:active {
         transform: translateY(0);
+      }
+
+      .login-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
       }
 
       .login-btn i {
@@ -315,14 +327,15 @@
           onsubmit="return validarLogin(event);"
         >
           <div class="form-group">
-            <label for="username">👤 Usuario</label>
-            <span class="input-icon">👤</span>
+            <label for="username">📧 Correo electrónico</label>
+            <span class="input-icon">📧</span>
             <input
-              type="text"
+              type="email"
               id="username"
-              placeholder="Ingresa tu usuario"
+              placeholder="tucorreo@ejemplo.com"
               required
               autofocus
+              autocomplete="username"
             />
           </div>
 
@@ -334,6 +347,7 @@
               id="password"
               placeholder="Ingresa tu contraseña"
               required
+              autocomplete="current-password"
             />
           </div>
 
@@ -345,8 +359,8 @@
             <a href="#">¿Olvidaste tu contraseña?</a>
           </div>
 
-          <button type="submit" class="login-btn">
-            <span>🚀</span> Iniciar Sesión
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span>🚀</span> <span id="loginBtnText">Iniciar Sesión</span>
           </button>
         </form>
 
@@ -362,76 +376,116 @@
       </div>
     </div>
 
+    <!-- SDK de Firebase con etiquetas <script> clásicas (versión "compat") -->
+    <!-- No requiere npm ni type="module": crea un objeto global "firebase" -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
     <script>
-      // Función para validar el login
+      // Configuración real de tu proyecto "sitio-web-empresa"
+      const firebaseConfig = {
+        apiKey: "AIzaSyBedZOHAiQT4NXVVtD-nTtMKWM3omGROVg",
+        authDomain: "sitio-web-empresa.firebaseapp.com",
+        projectId: "sitio-web-empresa",
+        storageBucket: "sitio-web-empresa.firebasestorage.app",
+        messagingSenderId: "738449827884",
+        appId: "1:738449827884:web:acb3ec527941c039ba4989",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      const usernameInput = document.getElementById("username"); // aquí va el correo
+      const passwordInput = document.getElementById("password");
+      const rememberInput = document.getElementById("remember");
+      const errorMessage = document.getElementById("errorMessage");
+      const successMessage = document.getElementById("successMessage");
+      const errorText = document.getElementById("errorText");
+      const loginBtn = document.getElementById("loginBtn");
+      const loginBtnText = document.getElementById("loginBtnText");
+
       function validarLogin(event) {
-        event.preventDefault(); // Evita que el formulario se envíe
+        event.preventDefault();
+        if (loginBtn.disabled) return false;
 
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value.trim();
-        const errorMessage = document.getElementById("errorMessage");
-        const successMessage = document.getElementById("successMessage");
-        const errorText = document.getElementById("errorText");
+        const email = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
 
-        // Ocultar mensajes anteriores
         errorMessage.classList.remove("show");
         successMessage.classList.remove("show");
 
-        // Validar que los campos no estén vacíos
-        if (username === "" || password === "") {
+        if (email === "" || password === "") {
           errorText.textContent = "Por favor, completa todos los campos";
           errorMessage.classList.add("show");
           return false;
         }
 
-        // Validar credenciales (ejemplo simple)
-        // Puedes cambiar el usuario y contraseña aquí
-        const validUsername = "admin";
-        const validPassword = "123456";
+        loginBtn.disabled = true;
+        usernameInput.disabled = true;
+        passwordInput.disabled = true;
+        loginBtnText.textContent = "Verificando...";
 
-        if (username === validUsername && password === validPassword) {
-          // Login exitoso
-          successMessage.classList.add("show");
-          document.getElementById("successText").textContent =
-            "¡Bienvenido " + username + "! Redirigiendo...";
+        // Consulta real contra Firebase Authentication (en la nube, no local)
+        auth
+          .signInWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            const user = userCredential.user;
 
-          // Redirigir al menú principal después de 1.5 segundos
-          setTimeout(function () {
-            window.location.href = "menu.html";
-          }, 1500);
-        } else {
-          // Login fallido
-          errorText.textContent =
-            "Usuario o contraseña incorrectos. Intenta nuevamente.";
-          errorMessage.classList.add("show");
+            successMessage.classList.add("show");
+            document.getElementById("successText").textContent =
+              "¡Bienvenido " + user.email + "! Redirigiendo...";
 
-          // Limpiar campos
-          document.getElementById("password").value = "";
-          document.getElementById("password").focus();
-        }
+            if (rememberInput.checked) {
+              localStorage.setItem("miempresa_remembered_user", email);
+            } else {
+              localStorage.removeItem("miempresa_remembered_user");
+            }
+
+            sessionStorage.setItem("miempresa_logged_in", "true");
+            sessionStorage.setItem("miempresa_username", user.email);
+
+            setTimeout(function () {
+              window.location.href = "menu.html";
+            }, 1200);
+          })
+          .catch(function (error) {
+            // Códigos comunes: auth/invalid-credential, auth/user-not-found, auth/wrong-password
+            errorText.textContent =
+              "Correo o contraseña incorrectos. Intenta nuevamente.";
+            errorMessage.classList.add("show");
+
+            passwordInput.value = "";
+            loginBtn.disabled = false;
+            usernameInput.disabled = false;
+            passwordInput.disabled = false;
+            loginBtnText.textContent = "Iniciar Sesión";
+            passwordInput.focus();
+          });
 
         return false;
       }
 
-      // Permitir presionar Enter para enviar el formulario
-      document.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          const form = document.getElementById("loginForm");
-          if (form) {
-            form.dispatchEvent(new Event("submit"));
-          }
+      // Al cargar la página: precargar usuario recordado
+      document.addEventListener("DOMContentLoaded", function () {
+        const rememberedUser = localStorage.getItem(
+          "miempresa_remembered_user",
+        );
+        if (rememberedUser) {
+          usernameInput.value = rememberedUser;
+          rememberInput.checked = true;
+          passwordInput.focus();
         }
       });
 
       // Animación de entrada al cargar
-      document.addEventListener("DOMContentLoaded", function () {
+      (function () {
         const wrapper = document.querySelector(".login-wrapper");
         wrapper.style.opacity = "0";
         setTimeout(function () {
           wrapper.style.opacity = "1";
           wrapper.style.animation = "fadeInUp 0.8s ease-out";
         }, 100);
-      });
+      })();
     </script>
   </body>
 </html>
