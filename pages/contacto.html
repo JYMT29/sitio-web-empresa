@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto - Mi Empresa</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="api-usuarios.html">API Usuarios</a></li>
+        <li><a href="api-clima.html">API Clima</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <main>
+      <h1>📞 Contáctanos</h1>
+      <div class="contacto-container">
+        <form onsubmit="enviarContacto(event)">
+          <input type="text" placeholder="Nombre completo" required />
+          <input type="email" placeholder="Correo electrónico" required />
+          <input type="tel" placeholder="Teléfono" />
+          <textarea rows="5" placeholder="Mensaje..." required></textarea>
+          <button type="submit">Enviar Mensaje</button>
+        </form>
+
+        <!-- VERSIÓN B - Información de contacto SUCURSAL SUR -->
+        <div
+          style="
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2ecc71;
+          "
+        >
+          <h3>📍 Sucursal Sur</h3>
+          <p>
+            <strong>Dirección:</strong> Av. Universidad #456, Col. Del Valle,
+            CDMX
+          </p>
+          <p><strong>Teléfono:</strong> +52 55 1234 5678</p>
+          <p><strong>Email:</strong> contacto.sur@miempresa.com</p>
+          <p><strong>Horario:</strong> Lunes a Viernes 9:00 - 18:00</p>
+          <p><strong>WhatsApp:</strong> +52 55 5555 5555</p>
+          <p><strong>Redes:</strong> @miempresa en todas las redes</p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Síguenos en redes sociales</p>
+    </footer>
+    <script>
+      function enviarContacto(e) {
+        e.preventDefault();
+        alert("✅ Mensaje enviado correctamente. ¡Te contactaremos pronto!");
+        e.target.reset();
+      }
+    </script>
+    <script src="../js/navigation.js"></script>
+  </body>
+</html>
