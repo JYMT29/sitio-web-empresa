@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Clima - Mi Empresa</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <!-- NAVEGACIÓN (la misma para todas) -->
+    <nav>
+      <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="api-usuarios.html">API Usuarios</a></li>
+        <li><a href="api-clima.html">API Clima</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <h1>🌤️ Clima en Tiempo Real</h1>
+
+      <!-- Selector de ciudad -->
+      <div style="text-align: center; margin-bottom: 2rem">
+        <label for="ciudad-select" style="font-weight: bold; margin-right: 1rem"
+          >Selecciona una ciudad:</label
+        >
+        <select
+          id="ciudad-select"
+          style="
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+          "
+        >
+          <option value="19.4326,-99.1332">Ciudad de México</option>
+          <option value="20.6597,-103.3496">Guadalajara</option>
+          <option value="25.6866,-100.3161">Monterrey</option>
+          <option value="19.0413,-98.2062">Puebla</option>
+          <option value="21.1619,-86.8515">Cancún</option>
+        </select>
+        <button
+          onclick="cargarClima()"
+          style="
+            padding: 0.5rem 1.5rem;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+          "
+        >
+          🔄 Actualizar
+        </button>
+      </div>
+
+      <div id="clima-container" class="api-container">
+        <div class="api-card" style="text-align: center">
+          <h3>🌎 Selecciona una ciudad</h3>
+          <p>Haz clic en "Actualizar" para ver el clima</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Datos del clima proporcionados por Open-Meteo</p>
+    </footer>
+
+    <script src="../js/clima.js"></script>
+    <script src="../js/navigation.js"></script>
+  </body>
+</html>
