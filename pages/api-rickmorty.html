@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rick and Morty API - Mi Empresa</title>
+    <link rel="stylesheet" href="/css/rickmorty.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="servicios.html">Servicios</a></li>
+        <li><a href="api-usuarios.html">API Usuarios</a></li>
+        <li><a href="api-clima.html">API Clima</a></li>
+        <li><a href="api-rickmorty.html">🛸 Rick & Morty</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <main>
+      <h1>🛸 Personajes de Rick and Morty</h1>
+
+      <div style="text-align: center; margin-bottom: 2rem">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+          "
+        >
+          <button
+            onclick="cargarPersonajes()"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: #e94560;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 1.1rem;
+            "
+          >
+            🔄 Todos
+          </button>
+          <button
+            onclick="cargarPorEstado('alive')"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: #2ecc71;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+            "
+          >
+            ✅ Vivos
+          </button>
+          <button
+            onclick="cargarPorEstado('dead')"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: #e74c3c;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+            "
+          >
+            ❌ Muertos
+          </button>
+          <button
+            onclick="cargarPorEstado('unknown')"
+            style="
+              padding: 0.5rem 1.5rem;
+              background: #f39c12;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+            "
+          >
+            ❓ Desconocido
+          </button>
+        </div>
+      </div>
+
+      <div id="rickmorty-container" class="api-container">
+        <div class="api-card" style="text-align: center">
+          <h3>⏳ Cargando personajes...</h3>
+          <p>¡Wubba Lubba Dub Dub!</p>
+          <div style="margin-top: 1rem; font-size: 2rem">👽</div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Datos proporcionados por Rick and Morty API</p>
+    </footer>
+    <script src="../js/rickmorty.js"></script>
+    <script src="../js/navigation.js"></script>
+  </body>
+</html>
