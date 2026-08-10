@@ -29,30 +29,61 @@
           <button type="submit">Enviar Mensaje</button>
         </form>
 
-        <!-- VERSIÓN A - Información de contacto SUCURSAL NORTE -->
+        <!-- VERSIÓN FINAL - AMBAS SUCURSALES -->
         <div
           style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
             margin-top: 2rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #e94560;
           "
         >
-          <h3>📍 Sucursal Norte</h3>
-          <p>
-            <strong>Dirección:</strong> Av. Insurgentes Norte #123, Col. Centro,
-            CDMX
-          </p>
-          <p><strong>Teléfono:</strong> +52 55 9876 5432</p>
-          <p><strong>Email:</strong> contacto.norte@miempresa.com</p>
-          <p><strong>Horario:</strong> Lunes a Viernes 8:00 - 19:00</p>
-          <p><strong>Sábado:</strong> 9:00 - 14:00</p>
+          <!-- Sucursal Norte -->
+          <div
+            style="
+              padding: 1rem;
+              background: #f8f9fa;
+              border-radius: 8px;
+              border-left: 4px solid #e94560;
+            "
+          >
+            <h3>📍 Sucursal Norte</h3>
+            <p>
+              <strong>Dirección:</strong> Av. Insurgentes Norte #123, Col.
+              Centro, CDMX
+            </p>
+            <p><strong>Teléfono:</strong> +52 55 9876 5432</p>
+            <p><strong>Email:</strong> contacto.norte@miempresa.com</p>
+            <p><strong>Horario:</strong> Lunes a Viernes 8:00 - 19:00</p>
+            <p><strong>Sábado:</strong> 9:00 - 14:00</p>
+          </div>
+
+          <!-- Sucursal Sur -->
+          <div
+            style="
+              padding: 1rem;
+              background: #f8f9fa;
+              border-radius: 8px;
+              border-left: 4px solid #2ecc71;
+            "
+          >
+            <h3>📍 Sucursal Sur</h3>
+            <p>
+              <strong>Dirección:</strong> Av. Universidad #456, Col. Del Valle,
+              CDMX
+            </p>
+            <p><strong>Teléfono:</strong> +52 55 1234 5678</p>
+            <p><strong>Email:</strong> contacto.sur@miempresa.com</p>
+            <p><strong>Horario:</strong> Lunes a Viernes 9:00 - 18:00</p>
+            <p><strong>WhatsApp:</strong> +52 55 5555 5555</p>
+            <p><strong>Redes:</strong> @miempresa</p>
+          </div>
         </div>
       </div>
     </main>
     <footer>
       <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Síguenos en redes sociales</p>
     </footer>
     <script>
       function enviarContacto(e) {
