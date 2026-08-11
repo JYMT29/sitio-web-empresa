@@ -1593,17 +1593,20 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script>
+      // ===== SCRIPTS =====
+      let loaded = false;
+
       function cargarUsuarios() {
         const container = document.getElementById("usuarios-container");
         const contador = document.getElementById("contador-usuarios");
 
         // Mostrar loading
         container.innerHTML = `
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <div class="loading-text">👥 Cargando usuarios...</div>
-                </div>
-            `;
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">👥 Cargando usuarios...</div>
+        </div>
+    `;
         contador.textContent = "0";
 
         fetch("https://jsonplaceholder.typicode.com/users")
@@ -1625,48 +1628,53 @@
                 .slice(0, 2);
 
               container.innerHTML += `
-                            <div class="usuario-card">
-                                <div class="usuario-avatar">${iniciales}</div>
-                                <div class="usuario-nombre">${user.name}</div>
-                                <div class="usuario-email">✉️ ${user.email}</div>
-                                <div class="usuario-detalles">
-                                    <div class="usuario-detalle">
-                                        <div class="label">🏙️ Ciudad</div>
-                                        <div class="value">${user.address.city}</div>
-                                    </div>
-                                    <div class="usuario-detalle">
-                                        <div class="label">🏢 Empresa</div>
-                                        <div class="value">${user.company.name}</div>
-                                    </div>
-                                    <div class="usuario-detalle" style="grid-column: 1 / -1;">
-                                        <div class="label">📋 Departamento</div>
-                                        <div class="value">${user.company.bs || "N/A"}</div>
-                                    </div>
-                                </div>
-                                <div class="usuario-telefono">
-                                    <strong>📱 Teléfono:</strong> ${user.phone}
-                                </div>
+                    <div class="usuario-card">
+                        <div class="usuario-avatar">${iniciales}</div>
+                        <div class="usuario-nombre">${user.name}</div>
+                        <div class="usuario-email">✉️ ${user.email}</div>
+                        <div class="usuario-detalles">
+                            <div class="usuario-detalle">
+                                <div class="label">🏙️ Ciudad</div>
+                                <div class="value">${user.address.city}</div>
                             </div>
-                        `;
+                            <div class="usuario-detalle">
+                                <div class="label">🏢 Empresa</div>
+                                <div class="value">${user.company.name}</div>
+                            </div>
+                            <div class="usuario-detalle" style="grid-column: 1 / -1;">
+                                <div class="label">📋 Departamento</div>
+                                <div class="value">${user.company.bs || "N/A"}</div>
+                            </div>
+                        </div>
+                        <div class="usuario-telefono">
+                            <strong>📱 Teléfono:</strong> ${user.phone}
+                        </div>
+                    </div>
+                `;
             });
           })
           .catch((error) => {
             container.innerHTML = `
-                        <div class="error-container">
-                            <span class="error-icon">🚨</span>
-                            <h3>Error al cargar usuarios</h3>
-                            <p style="color:#888;">${error.message}</p>
-                            <button onclick="cargarUsuarios()" style="margin-top:1rem; padding:0.7rem 2rem; background:#e94560; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:700;">
-                                🔄 Reintentar
-                            </button>
-                        </div>
-                    `;
+                <div class="error-container">
+                    <span class="error-icon">🚨</span>
+                    <h3>Error al cargar usuarios</h3>
+                    <p style="color:#888;">${error.message}</p>
+                    <button onclick="cargarUsuarios()" style="margin-top:1rem; padding:0.7rem 2rem; background:#e94560; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:700;">
+                        🔄 Reintentar
+                    </button>
+                </div>
+            `;
             console.error("Error:", error);
           });
       }
 
-      // Cargar usuarios al iniciar
-      document.addEventListener("DOMContentLoaded", cargarUsuarios);
+      // Cargar usuarios al iniciar (SOLO UNA VEZ)
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!loaded) {
+          cargarUsuarios();
+          loaded = true;
+        }
+      });
 
       function cerrarSesion() {
         if (confirm("¿Cerrar sesión?")) {
