@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Nosotros</title>
     <!-- Enlace a tu archivo CSS -->
     <link rel="stylesheet" href="/sitio-web-empresa/css/nosotros.css" />
@@ -13,32 +14,37 @@
     />
   </head>
   <body>
-    <nav>
-      <a href="../index.html"><i class="fas fa-home"></i> Inicio</a>
-      <a href="nosotros.html" class="active"
-        ><i class="fas fa-users"></i> Nosotros</a
-      >
-      <a href="galeria.html"><i class="fas fa-images"></i> Galería</a>
-      <a href="servicios.html"><i class="fas fa-briefcase"></i> Servicios</a>
-      <a href="usuarios.html"><i class="fas fa-chart-bar"></i> Usuarios API</a>
-      <a href="clima.html"><i class="fas fa-cloud-sun"></i> Clima API</a>
-      <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+    <!-- Menú de Navegación -->
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="../menu.html">🏠 Inicio</a></li>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="nosotros.html" class="active">👥 Nosotros</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="servicios.html">💼 Servicios</a></li>
+        <li><a href="api-usuarios.html">📊 Usuarios API</a></li>
+        <li><a href="api-clima.html">🌤️ Clima API</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
     </nav>
 
-    <div class="container">
-      <div class="hero-banner fade-in-up">
-        <h1><i class="fas fa-building"></i> Sobre Nosotros</h1>
+    <div class="about-container">
+      <!-- Header -->
+      <div class="about-header">
+        <h1>🏢 Sobre <span>Nosotros</span></h1>
         <p>
           Conoce quiénes somos, nuestra trayectoria y hacia dónde nos dirigimos
         </p>
       </div>
 
-      <div class="cards-grid">
-        <div class="card fade-in-up delay-1">
-          <div class="card-header"><i class="fas fa-book-open"></i></div>
-          <div class="card-body">
-            <h2 class="card-title">Nuestra Historia</h2>
-            <p class="card-text">
+      <!-- Grid de Nosotros -->
+      <div class="about-grid">
+        <!-- Nuestra Historia -->
+        <div class="about-card">
+          <div class="about-image">📖</div>
+          <div class="about-content">
+            <h3 class="about-title">Nuestra Historia</h3>
+            <p class="about-description">
               Nacimos con el objetivo de brindar soluciones tecnológicas e
               innovadoras para empresas en crecimiento. Nos hemos consolidado
               gracias a nuestro compromiso con la calidad.
@@ -46,11 +52,13 @@
           </div>
         </div>
 
-        <div class="card fade-in-up delay-2">
-          <div class="card-header"><i class="fas fa-bullseye"></i></div>
-          <div class="card-body">
-            <h2 class="card-title">Misión</h2>
-            <p class="card-text">
+        <!-- Misión -->
+        <div class="about-card">
+          <div class="about-image">🎯</div>
+          <div class="about-badge">Compromiso</div>
+          <div class="about-content">
+            <h3 class="about-title">Misión</h3>
+            <p class="about-description">
               Proveer servicios digitales de alto valor que impulsen la
               transformación y productividad de nuestros clientes, garantizando
               eficiencia y diseño accesible.
@@ -58,19 +66,26 @@
           </div>
         </div>
 
-        <div class="card fade-in-up delay-3">
-          <div class="card-header"><i class="fas fa-eye"></i></div>
-          <div class="card-body">
-            <h2 class="card-title">Visión</h2>
-            <p class="card-text">
+        <!-- Visión -->
+        <div class="about-card">
+          <div class="about-image">👁️</div>
+          <div class="about-content">
+            <h3 class="about-title">Visión</h3>
+            <p class="about-description">
               Ser líderes reconocidos en el sector tecnológico, destacándonos
               por la innovación de nuestras soluciones y el impacto positivo en
               las organizaciones.
             </p>
-            <img src="imagen.jpg" alt="Nuestro Equipo" class="card-img" />
+            <img src="imagen.jpg" alt="Nuestro Equipo" class="about-card-img" />
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
+      <p>Transformando ideas en soluciones digitales</p>
+    </footer>
   </body>
 </html>
