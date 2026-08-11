@@ -4,102 +4,676 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rick and Morty API - Mi Empresa</title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+      /* ===== MENÚ DE NAVEGACIÓN ===== */
+      .top-nav {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        border-bottom: 3px solid #00ffcc;
+        box-shadow: 0 4px 20px rgba(0, 255, 204, 0.2);
+      }
+      .top-nav a {
+        color: #ccc;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+      .top-nav a:hover {
+        background: #e94560;
+        color: white;
+        transform: scale(1.05);
+      }
+      .top-nav .brand {
+        color: #00ffcc;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+      }
+      .top-nav .brand:hover {
+        background: none;
+        color: #00ffcc;
+      }
+      .top-nav .menu-simple {
+        display: flex;
+        gap: 0.3rem;
+        flex-wrap: wrap;
+      }
+      .top-nav .active-page {
+        background: #e94560;
+        color: white;
+        box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+      }
+      .top-nav .logout-link {
+        color: #e94560;
+      }
+      .top-nav .logout-link:hover {
+        background: #e94560;
+        color: white;
+      }
+      @media (max-width: 768px) {
+        .top-nav {
+          flex-direction: column;
+          padding: 0.8rem 1rem;
+        }
+        .top-nav .menu-simple {
+          justify-content: center;
+        }
+      }
+
+      /* ===== ESTILOS PRINCIPALES ===== */
+      .rickmorty-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* ===== HEADER CON EFECTO PORTAL ===== */
+      .rickmorty-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .rickmorty-header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #00ffcc, #00b894, #e94560, #6c5ce7);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientMove 4s ease infinite;
+        text-shadow: none;
+        position: relative;
+        display: inline-block;
+      }
+
+      .rickmorty-header h1::after {
+        content: "🛸";
+        font-size: 2.5rem;
+        -webkit-text-fill-color: initial;
+        animation: floatPortal 3s ease-in-out infinite;
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes floatPortal {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(10deg);
+        }
+      }
+
+      .rickmorty-header p {
+        color: #888;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.5rem 2rem;
+        border-radius: 30px;
+        display: inline-block;
+        border: 1px dashed #6c5ce7;
+      }
+
+      /* ===== FILTROS ===== */
+      .filtros-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-filtro {
+        padding: 0.7rem 1.8rem;
+        border: none;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-filtro::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-filtro:hover::before {
+        left: 100%;
+      }
+
+      .btn-filtro:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-filtro:active {
+        transform: scale(0.95);
+      }
+
+      .btn-todos {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+      }
+
+      .btn-vivos {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4);
+      }
+
+      .btn-muertos {
+        background: linear-gradient(135deg, #e94560, #ff6b6b);
+        color: white;
+        box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+      }
+
+      .btn-desconocido {
+        background: linear-gradient(135deg, #fdcb6e, #f39c12);
+        color: white;
+        box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+      }
+
+      /* ===== GRID DE PERSONAJES ===== */
+      .personajes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      /* ===== TARJETA DE PERSONAJE ===== */
+      .personaje-card {
+        background: linear-gradient(145deg, #1a1a2e, #16213e);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+      }
+
+      .personaje-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        border-color: rgba(0, 255, 204, 0.3);
+      }
+
+      .personaje-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 204, 0.03) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+      }
+
+      .personaje-card:hover::before {
+        opacity: 1;
+      }
+
+      /* ===== IMAGEN ===== */
+      .personaje-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-bottom: 3px solid rgba(255, 255, 255, 0.05);
+        transition: transform 0.5s;
+        background: linear-gradient(135deg, #0a0a1a, #1a1a2e);
+      }
+
+      .personaje-card:hover .personaje-img {
+        transform: scale(1.05);
+      }
+
+      /* ===== INFO ===== */
+      .personaje-info {
+        padding: 1.5rem;
+        position: relative;
+      }
+
+      .personaje-nombre {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+      }
+
+      .personaje-nombre::first-letter {
+        color: #00ffcc;
+      }
+
+      .personaje-especie {
+        color: #a29bfe;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+      }
+
+      /* ===== ESTADO ===== */
+      .personaje-estado {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.8rem;
+      }
+
+      .estado-alive {
+        background: rgba(0, 206, 201, 0.2);
+        color: #00cec9;
+        border: 1px solid rgba(0, 206, 201, 0.3);
+      }
+
+      .estado-dead {
+        background: rgba(233, 69, 96, 0.2);
+        color: #e94560;
+        border: 1px solid rgba(233, 69, 96, 0.3);
+      }
+
+      .estado-unknown {
+        background: rgba(243, 156, 18, 0.2);
+        color: #f39c12;
+        border: 1px solid rgba(243, 156, 18, 0.3);
+      }
+
+      /* ===== BADGES ===== */
+      .personaje-badges {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+      }
+
+      .badge-especie {
+        background: rgba(108, 92, 231, 0.2);
+        color: #a29bfe;
+        padding: 0.2rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        border: 1px solid rgba(108, 92, 231, 0.2);
+      }
+
+      .badge-genero {
+        background: rgba(253, 203, 110, 0.2);
+        color: #fdcb6e;
+        padding: 0.2rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        border: 1px solid rgba(253, 203, 110, 0.2);
+      }
+
+      /* ===== UBICACIÓN ===== */
+      .personaje-ubicacion {
+        color: #aaa;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .personaje-ubicacion strong {
+        color: #00ffcc;
+        font-weight: 600;
+      }
+
+      .personaje-episodios {
+        color: #888;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+      }
+
+      .personaje-episodios strong {
+        color: #6c5ce7;
+      }
+
+      /* ===== LOADING ===== */
+      .loading-container {
+        text-align: center;
+        padding: 4rem;
+        grid-column: 1 / -1;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border: 4px solid rgba(0, 255, 204, 0.1);
+        border-top-color: #00ffcc;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        color: #00ffcc;
+        font-size: 1.2rem;
+        font-weight: 600;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ===== ERROR ===== */
+      .error-container {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem;
+        background: rgba(233, 69, 96, 0.1);
+        border-radius: 20px;
+        border: 2px dashed #e94560;
+      }
+
+      .error-container h3 {
+        color: #e94560;
+        font-size: 2rem;
+      }
+
+      .error-container .error-icon {
+        font-size: 4rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .rickmorty-header h1 {
+          font-size: 2.5rem;
+        }
+        .personaje-img {
+          height: 220px;
+        }
+        .filtros-container {
+          gap: 0.5rem;
+          padding: 1rem;
+        }
+        .btn-filtro {
+          padding: 0.5rem 1.2rem;
+          font-size: 0.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .rickmorty-header h1 {
+          font-size: 1.8rem;
+        }
+        .personajes-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .personaje-img {
+          height: 200px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <nav>
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="nosotros.html">Nosotros</a></li>
-        <li><a href="galeria.html">Galería</a></li>
-        <li><a href="servicios.html">Servicios</a></li>
-        <li><a href="api-usuarios.html">API Usuarios</a></li>
-        <li><a href="api-clima.html">API Clima</a></li>
-        <li><a href="api-rickmorty.html">🛸 Rick & Morty</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
+    <!-- ===== MENÚ DE NAVEGACIÓN ===== -->
+    <nav class="top-nav">
+      <a href="../menu.html" class="brand">🏢 Mi Empresa</a>
+      <div class="menu-simple">
+        <a href="../menu.html">📋 Menú</a>
+        <a href="../index.html">🏠 Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="galeria.html">Galería</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="api-usuarios.html">👥 Usuarios</a>
+        <a href="api-clima.html">🌤️ Clima</a>
+        <a href="api-rickmorty.html" class="active-page">🛸 Rick</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="#" class="logout-link" onclick="cerrarSesion()">🚪</a>
+      </div>
     </nav>
-    <main>
-      <h1>🛸 Personajes de Rick and Morty</h1>
 
-      <div style="text-align: center; margin-bottom: 2rem">
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-          "
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <div class="rickmorty-container">
+      <!-- HEADER -->
+      <div class="rickmorty-header">
+        <h1>Rick and Morty</h1>
+        <p>🌟 Descubre a todos los personajes del multiverso</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filtros-container">
+        <button class="btn-filtro btn-todos" onclick="cargarTodos()">
+          🌌 Todos
+        </button>
+        <button class="btn-filtro btn-vivos" onclick="cargarPorEstado('alive')">
+          ✅ Vivos
+        </button>
+        <button
+          class="btn-filtro btn-muertos"
+          onclick="cargarPorEstado('dead')"
         >
-          <button
-            onclick="cargarPersonajes()"
-            style="
-              padding: 0.5rem 1.5rem;
-              background: #e94560;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-              font-size: 1.1rem;
-            "
-          >
-            🔄 Todos
-          </button>
-          <button
-            onclick="cargarPorEstado('alive')"
-            style="
-              padding: 0.5rem 1.5rem;
-              background: #2ecc71;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-            "
-          >
-            ✅ Vivos
-          </button>
-          <button
-            onclick="cargarPorEstado('dead')"
-            style="
-              padding: 0.5rem 1.5rem;
-              background: #e74c3c;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-            "
-          >
-            ❌ Muertos
-          </button>
-          <button
-            onclick="cargarPorEstado('unknown')"
-            style="
-              padding: 0.5rem 1.5rem;
-              background: #f39c12;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-            "
-          >
-            ❓ Desconocido
-          </button>
-        </div>
+          💀 Muertos
+        </button>
+        <button
+          class="btn-filtro btn-desconocido"
+          onclick="cargarPorEstado('unknown')"
+        >
+          ❓ Desconocido
+        </button>
       </div>
 
-      <div id="rickmorty-container" class="api-container">
-        <div class="api-card" style="text-align: center">
-          <h3>⏳ Cargando personajes...</h3>
-          <p>¡Wubba Lubba Dub Dub!</p>
-          <div style="margin-top: 1rem; font-size: 2rem">👽</div>
+      <!-- GRID DE PERSONAJES -->
+      <div id="rickmorty-container" class="personajes-grid">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">
+            🛸 Cargando personajes del multiverso...
+          </div>
         </div>
       </div>
-    </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
     <footer>
       <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
-      <p>Datos proporcionados por Rick and Morty API</p>
+      <p>
+        Datos proporcionados por
+        <strong style="color: #00ffcc">Rick and Morty API</strong>
+      </p>
     </footer>
-    <script src="../js/rickmorty.js"></script>
-    <script src="../js/navigation.js"></script>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+      function cargarTodos() {
+        cargarURL("https://rickandmortyapi.com/api/character");
+      }
+
+      function cargarPorEstado(estado) {
+        cargarURL(
+          `https://rickandmortyapi.com/api/character/?status=${estado}`,
+        );
+      }
+
+      function cargarURL(url) {
+        const container = document.getElementById("rickmorty-container");
+
+        // Mostrar loading
+        container.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">🔄 Viajando por el multiverso...</div>
+                </div>
+            `;
+
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) throw new Error("Error al obtener personajes");
+            return response.json();
+          })
+          .then((data) => {
+            if (!data.results || data.results.length === 0) {
+              container.innerHTML = `
+                            <div class="error-container">
+                                <span class="error-icon">🔍</span>
+                                <h3>No se encontraron personajes</h3>
+                                <p style="color:#888;">Prueba con otro filtro</p>
+                                <button onclick="cargarTodos()" style="margin-top:1rem; padding:0.7rem 2rem; background:#6c5ce7; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:700;">
+                                    🌌 Ver todos
+                                </button>
+                            </div>
+                        `;
+              return;
+            }
+
+            container.innerHTML = "";
+
+            data.results.forEach((personaje) => {
+              // Determinar clase de estado
+              let estadoClass = "estado-unknown";
+              let estadoEmoji = "❓";
+              if (personaje.status === "Alive") {
+                estadoClass = "estado-alive";
+                estadoEmoji = "✅";
+              } else if (personaje.status === "Dead") {
+                estadoClass = "estado-dead";
+                estadoEmoji = "💀";
+              }
+
+              // Emoji según especie
+              const especieEmoji = {
+                Human: "🧑",
+                Alien: "👽",
+                Humanoid: "🧬",
+                Poopybutthole: "💩",
+                Mythological: "🧙",
+                Animal: "🐾",
+                Robot: "🤖",
+                Cronenberg: "🧟",
+              };
+              const emoji = especieEmoji[personaje.species] || "👤";
+
+              // Emoji según género
+              const generoEmoji = {
+                Male: "♂️",
+                Female: "♀️",
+                Genderless: "⚧️",
+              };
+              const genero = generoEmoji[personaje.gender] || "⚧️";
+
+              container.innerHTML += `
+                            <div class="personaje-card">
+                                <img class="personaje-img" src="${personaje.image}" alt="${personaje.name}" loading="lazy">
+                                <div class="personaje-info">
+                                    <div class="personaje-nombre">${personaje.name}</div>
+                                    <div class="personaje-estado ${estadoClass}">
+                                        ${estadoEmoji} ${personaje.status}
+                                    </div>
+                                    <div class="personaje-badges">
+                                        <span class="badge-especie">${emoji} ${personaje.species}</span>
+                                        <span class="badge-genero">${genero} ${personaje.gender}</span>
+                                    </div>
+                                    <div class="personaje-ubicacion">
+                                        <strong>🌍 Origen:</strong> ${personaje.origin.name}
+                                    </div>
+                                    <div class="personaje-ubicacion">
+                                        <strong>📍 Ubicación:</strong> ${personaje.location.name}
+                                    </div>
+                                    <div class="personaje-episodios">
+                                        <strong>📺 Episodios:</strong> ${personaje.episode.length}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+            });
+          })
+          .catch((error) => {
+            container.innerHTML = `
+                        <div class="error-container">
+                            <span class="error-icon">🚨</span>
+                            <h3>Error al cargar personajes</h3>
+                            <p style="color:#888;">${error.message}</p>
+                            <button onclick="cargarTodos()" style="margin-top:1rem; padding:0.7rem 2rem; background:#e94560; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:700;">
+                                🔄 Reintentar
+                            </button>
+                        </div>
+                    `;
+            console.error("Error:", error);
+          });
+      }
+
+      // Cargar todos al iniciar
+      document.addEventListener("DOMContentLoaded", cargarTodos);
+
+      function cerrarSesion() {
+        if (confirm("¿Cerrar sesión?")) {
+          sessionStorage.removeItem("userLogged");
+          sessionStorage.removeItem("username");
+          window.location.href = "../login.html";
+        }
+      }
+    </script>
   </body>
 </html>
