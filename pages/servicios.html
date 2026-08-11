@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Servicios - Mi Empresa</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <style>
-      /* Estilos específicos para la página de servicios */
+      /* Estilos específicos para la página de servicios (paleta alineada al login) */
+      body {
+        background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+      }
+
       .services-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -15,16 +22,21 @@
 
       .services-header {
         text-align: center;
-        padding: 40px 0;
-        background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+        padding: 50px 20px;
+        background: linear-gradient(135deg, #1a1a2e 0%, #e94560 100%);
         color: white;
-        border-radius: 10px;
+        border-radius: 15px;
         margin-bottom: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
       }
 
       .services-header h1 {
         font-size: 2.5em;
         margin-bottom: 10px;
+      }
+
+      .services-header h1 span {
+        color: #ffb3c0;
       }
 
       .services-header p {
@@ -43,28 +55,24 @@
         background: white;
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition:
-          transform 0.3s,
-          box-shadow 0.3s;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s;
         position: relative;
       }
 
       .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
       }
 
       .service-image {
         width: 100%;
-        height: 200px;
+        height: 180px;
         object-fit: cover;
-        background: #e8f0fe;
+        background: #fdeef1;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 4em;
-        color: #1a73e8;
       }
 
       .service-content {
@@ -75,16 +83,17 @@
         position: absolute;
         top: 15px;
         right: 15px;
-        background: #1a73e8;
+        background: linear-gradient(135deg, #e94560, #c23152);
         color: white;
         padding: 5px 15px;
         border-radius: 20px;
         font-size: 0.8em;
         font-weight: bold;
+        animation: pulse 2s infinite;
       }
 
       .service-title {
-        color: #1a73e8;
+        color: #1a1a2e;
         font-size: 1.4em;
         margin-bottom: 10px;
       }
@@ -109,14 +118,14 @@
 
       .service-features li::before {
         content: "✓ ";
-        color: #1a73e8;
+        color: #e94560;
         font-weight: bold;
       }
 
       .service-price {
         display: inline-block;
-        background: #e8f0fe;
-        color: #1a73e8;
+        background: rgba(233, 69, 96, 0.1);
+        color: #e94560;
         padding: 5px 15px;
         border-radius: 20px;
         font-weight: bold;
@@ -127,24 +136,26 @@
         display: inline-block;
         margin-top: 15px;
         padding: 10px 25px;
-        background: #1a73e8;
+        background: linear-gradient(135deg, #e94560, #c23152);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 10px;
+        font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: all 0.3s;
         text-decoration: none;
       }
 
       .service-button:hover {
-        background: #1557b0;
+        transform: scale(1.03);
+        box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
         text-decoration: none;
         color: white;
       }
 
       /* Navegación */
       .nav-menu {
-        background: #1a73e8;
+        background: #1a1a2e;
         padding: 15px 0;
         margin-bottom: 30px;
       }
@@ -163,21 +174,21 @@
         color: white;
         text-decoration: none;
         padding: 8px 16px;
-        border-radius: 5px;
+        border-radius: 10px;
         transition: background 0.3s;
       }
 
       .nav-menu ul li a:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(233, 69, 96, 0.3);
       }
 
       .nav-menu ul li a.active {
-        background: rgba(255, 255, 255, 0.3);
+        background: linear-gradient(135deg, #e94560, #c23152);
       }
 
       /* Footer */
       .footer {
-        background: #333;
+        background: #1a1a2e;
         color: white;
         text-align: center;
         padding: 20px;
@@ -185,7 +196,7 @@
       }
 
       .footer a {
-        color: #1a73e8;
+        color: #ffb3c0;
         text-decoration: none;
       }
 
@@ -208,7 +219,7 @@
         }
       }
 
-      /* Animaciones adicionales */
+      /* Animaciones */
       .service-card {
         animation: fadeInUp 0.6s ease-out;
       }
@@ -238,14 +249,6 @@
       }
       .service-card:nth-child(6) {
         animation-delay: 0.5s;
-      }
-      .service-card:nth-child(7) {
-        animation-delay: 0.6s;
-      }
-
-      /* Estilo para el badge */
-      .service-badge {
-        animation: pulse 2s infinite;
       }
 
       @keyframes pulse {
@@ -279,7 +282,7 @@
     <div class="services-container">
       <!-- Header -->
       <div class="services-header">
-        <h1>🚀 Nuestros Servicios</h1>
+        <h1>🚀 Nuestros <span>Servicios</span></h1>
         <p>Soluciones tecnológicas innovadoras para tu negocio</p>
       </div>
 
@@ -325,27 +328,6 @@
             <span class="service-price">Desde $800</span>
             <br />
             <a href="#" class="service-button">Más información</a>
-          </div>
-
-          <!-- Servicio 7: Cloud Computing -->
-          <div class="service-card">
-            <div class="service-image">☁️</div>
-            <div class="service-content">
-              <h3 class="service-title">Cloud Computing</h3>
-              <p class="service-description">
-                Soluciones en la nube para escalar tu negocio sin límites, con
-                alta disponibilidad y rendimiento.
-              </p>
-              <ul class="service-features">
-                <li>Almacenamiento en la nube</li>
-                <li>Escalabilidad automática</li>
-                <li>Alta disponibilidad</li>
-                <li>Respaldo y recuperación</li>
-              </ul>
-              <span class="service-price">Desde $450</span>
-              <br />
-              <a href="#" class="service-button">Más información</a>
-            </div>
           </div>
         </div>
 
@@ -413,7 +395,7 @@
           </div>
         </div>
 
-        <!-- Servicio 6: Marketing Digital (Extra) -->
+        <!-- Servicio 6: Marketing Digital -->
         <div class="service-card">
           <div class="service-image">📈</div>
           <div class="service-content">
@@ -429,6 +411,27 @@
               <li>Analítica web</li>
             </ul>
             <span class="service-price">Desde $400</span>
+            <br />
+            <a href="#" class="service-button">Más información</a>
+          </div>
+        </div>
+
+        <!-- Servicio 7: Cloud Computing -->
+        <div class="service-card">
+          <div class="service-image">☁️</div>
+          <div class="service-content">
+            <h3 class="service-title">Cloud Computing</h3>
+            <p class="service-description">
+              Soluciones en la nube para escalar tu negocio sin límites, con
+              alta disponibilidad y rendimiento.
+            </p>
+            <ul class="service-features">
+              <li>Almacenamiento en la nube</li>
+              <li>Escalabilidad automática</li>
+              <li>Alta disponibilidad</li>
+              <li>Respaldo y recuperación</li>
+            </ul>
+            <span class="service-price">Desde $450</span>
             <br />
             <a href="#" class="service-button">Más información</a>
           </div>
