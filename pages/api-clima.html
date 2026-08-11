@@ -5,73 +5,619 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Clima - Mi Empresa</title>
     <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+      /* ===== MENÚ DE NAVEGACIÓN ===== */
+      .top-nav {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        border-bottom: 3px solid #3498db;
+        box-shadow: 0 4px 20px rgba(52, 152, 219, 0.2);
+      }
+      .top-nav a {
+        color: #ccc;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+      .top-nav a:hover {
+        background: #e94560;
+        color: white;
+        transform: scale(1.05);
+      }
+      .top-nav .brand {
+        color: #3498db;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+      }
+      .top-nav .brand:hover {
+        background: none;
+        color: #3498db;
+      }
+      .top-nav .menu-simple {
+        display: flex;
+        gap: 0.3rem;
+        flex-wrap: wrap;
+      }
+      .top-nav .active-page {
+        background: #e94560;
+        color: white;
+        box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+      }
+      .top-nav .logout-link {
+        color: #e94560;
+      }
+      .top-nav .logout-link:hover {
+        background: #e94560;
+        color: white;
+      }
+      @media (max-width: 768px) {
+        .top-nav {
+          flex-direction: column;
+          padding: 0.8rem 1rem;
+        }
+        .top-nav .menu-simple {
+          justify-content: center;
+        }
+      }
+
+      /* ===== ESTILOS PRINCIPALES ===== */
+      .clima-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* ===== HEADER CON EFECTO CLIMA ===== */
+      .clima-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .clima-header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12, #e94560);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientMove 4s ease infinite;
+        position: relative;
+        display: inline-block;
+      }
+
+      .clima-header h1::after {
+        content: "🌤️";
+        font-size: 2.5rem;
+        -webkit-text-fill-color: initial;
+        animation: floatWeather 3s ease-in-out infinite;
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes floatWeather {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(10deg);
+        }
+      }
+
+      .clima-header p {
+        color: #888;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.5rem 2rem;
+        border-radius: 30px;
+        display: inline-block;
+        border: 1px dashed #3498db;
+      }
+
+      /* ===== SELECTOR DE CIUDAD ===== */
+      .selector-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .selector-container label {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .selector-container select {
+        padding: 0.8rem 1.5rem;
+        border-radius: 30px;
+        border: 2px solid #3498db;
+        background: rgba(26, 26, 46, 0.9);
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 200px;
+      }
+
+      .selector-container select:hover {
+        border-color: #2ecc71;
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+      }
+
+      .selector-container select:focus {
+        outline: none;
+        border-color: #e94560;
+        box-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+      }
+
+      .btn-actualizar {
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #3498db, #2ecc71);
+        color: white;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+      }
+
+      .btn-actualizar:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(52, 152, 219, 0.5);
+      }
+
+      .btn-actualizar:active {
+        transform: scale(0.95);
+      }
+
+      /* ===== GRID DE CLIMA ===== */
+      .clima-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      /* ===== TARJETA DE CLIMA ===== */
+      .clima-card {
+        background: linear-gradient(145deg, #1a1a2e, #16213e);
+        border-radius: 25px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .clima-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(52, 152, 219, 0.05) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+      }
+
+      .clima-card:hover::before {
+        opacity: 1;
+      }
+
+      .clima-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        border-color: rgba(52, 152, 219, 0.3);
+      }
+
+      /* ===== ICONO DEL CLIMA ===== */
+      .clima-icono {
+        font-size: 4.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        animation: floatIcon 3s ease-in-out infinite;
+      }
+
+      @keyframes floatIcon {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .clima-ciudad {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 0.3rem;
+      }
+
+      .clima-ciudad::first-letter {
+        color: #3498db;
+      }
+
+      .clima-temperatura {
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #3498db, #2ecc71);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+      }
+
+      .clima-temperatura span {
+        font-size: 1.5rem;
+        -webkit-text-fill-color: #888;
+      }
+
+      /* ===== DETALLES ===== */
+      .clima-detalles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .clima-detalle {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.8rem;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+
+      .clima-detalle:hover {
+        background: rgba(52, 152, 219, 0.1);
+      }
+
+      .clima-detalle .label {
+        color: #888;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .clima-detalle .value {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-top: 0.2rem;
+      }
+
+      .clima-actualizacion {
+        color: #666;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      /* ===== LOADING ===== */
+      .loading-container {
+        text-align: center;
+        padding: 4rem;
+        grid-column: 1 / -1;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border: 4px solid rgba(52, 152, 219, 0.1);
+        border-top-color: #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        color: #3498db;
+        font-size: 1.2rem;
+        font-weight: 600;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ===== ERROR ===== */
+      .error-container {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem;
+        background: rgba(233, 69, 96, 0.1);
+        border-radius: 20px;
+        border: 2px dashed #e94560;
+      }
+
+      .error-container h3 {
+        color: #e94560;
+        font-size: 2rem;
+      }
+
+      .error-container .error-icon {
+        font-size: 4rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .clima-header h1 {
+          font-size: 2.5rem;
+        }
+        .selector-container {
+          flex-direction: column;
+          padding: 1rem;
+        }
+        .selector-container select {
+          width: 100%;
+          min-width: unset;
+        }
+        .clima-temperatura {
+          font-size: 3rem;
+        }
+        .clima-detalles {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .clima-header h1 {
+          font-size: 1.8rem;
+        }
+        .clima-grid {
+          grid-template-columns: 1fr;
+        }
+        .clima-temperatura {
+          font-size: 2.5rem;
+        }
+        .clima-detalles {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- NAVEGACIÓN (la misma para todas) -->
-    <nav>
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="nosotros.html">Nosotros</a></li>
-        <li><a href="galeria.html">Galería</a></li>
-        <li><a href="servicios.html">Servicios</a></li>
-        <li><a href="api-usuarios.html">API Usuarios</a></li>
-        <li><a href="api-clima.html">API Clima</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
+    <!-- ===== MENÚ DE NAVEGACIÓN ===== -->
+    <nav class="top-nav">
+      <a href="../menu.html" class="brand">🏢 Mi Empresa</a>
+      <div class="menu-simple">
+        <a href="../menu.html">📋 Menú</a>
+        <a href="../index.html">🏠 Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="galeria.html">Galería</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="api-usuarios.html">👥 Usuarios</a>
+        <a href="api-clima.html" class="active-page">🌤️ Clima</a>
+        <a href="api-rickmorty.html">🛸 Rick</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="#" class="logout-link" onclick="cerrarSesion()">🚪</a>
+      </div>
     </nav>
 
-    <main>
-      <h1>🌤️ Clima en Tiempo Real</h1>
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <div class="clima-container">
+      <!-- HEADER -->
+      <div class="clima-header">
+        <h1>Clima en Tiempo Real</h1>
+        <p>🌍 Información meteorológica actualizada</p>
+      </div>
 
-      <!-- Selector de ciudad -->
-      <div style="text-align: center; margin-bottom: 2rem">
-        <label for="ciudad-select" style="font-weight: bold; margin-right: 1rem"
-          >Selecciona una ciudad:</label
-        >
-        <select
-          id="ciudad-select"
-          style="
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-          "
-        >
-          <option value="19.4326,-99.1332">Ciudad de México</option>
-          <option value="20.6597,-103.3496">Guadalajara</option>
-          <option value="25.6866,-100.3161">Monterrey</option>
-          <option value="19.0413,-98.2062">Puebla</option>
-          <option value="21.1619,-86.8515">Cancún</option>
+      <!-- SELECTOR -->
+      <div class="selector-container">
+        <label for="ciudad-select">📍 Selecciona una ciudad:</label>
+        <select id="ciudad-select">
+          <option value="19.4326,-99.1332">🌆 Ciudad de México</option>
+          <option value="20.6597,-103.3496">🌇 Guadalajara</option>
+          <option value="25.6866,-100.3161">🏙️ Monterrey</option>
+          <option value="19.0413,-98.2062">🏛️ Puebla</option>
+          <option value="21.1619,-86.8515">🏖️ Cancún</option>
+          <option value="20.9674,-89.5926">🏛️ Mérida</option>
         </select>
-        <button
-          onclick="cargarClima()"
-          style="
-            padding: 0.5rem 1.5rem;
-            background: #e94560;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-left: 0.5rem;
-          "
-        >
+        <button class="btn-actualizar" onclick="cargarClima()">
           🔄 Actualizar
         </button>
       </div>
 
-      <div id="clima-container" class="api-container">
-        <div class="api-card" style="text-align: center">
-          <h3>🌎 Selecciona una ciudad</h3>
-          <p>Haz clic en "Actualizar" para ver el clima</p>
+      <!-- GRID DE CLIMA -->
+      <div id="clima-container" class="clima-grid">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">🌤️ Cargando datos del clima...</div>
         </div>
       </div>
-    </main>
+    </div>
 
+    <!-- ===== FOOTER ===== -->
     <footer>
       <p>&copy; 2026 Mi Empresa - Todos los derechos reservados</p>
-      <p>Datos del clima proporcionados por Open-Meteo</p>
+      <p>
+        Datos proporcionados por
+        <strong style="color: #3498db">Open-Meteo</strong>
+      </p>
     </footer>
 
-    <script src="../js/clima.js"></script>
-    <script src="../js/navigation.js"></script>
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+      function cargarClima() {
+        const select = document.getElementById("ciudad-select");
+        const [lat, lon] = select.value.split(",");
+        const ciudadNombre = select.options[select.selectedIndex].text
+          .replace(/[^\w\s]/g, "")
+          .trim();
+        const container = document.getElementById("clima-container");
+
+        // Mostrar loading
+        container.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">⏳ Buscando el clima en ${ciudadNombre}...</div>
+                </div>
+            `;
+
+        fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`,
+        )
+          .then((response) => {
+            if (!response.ok) throw new Error("Error al obtener el clima");
+            return response.json();
+          })
+          .then((data) => {
+            const clima = data.current_weather;
+
+            // Mapeo de códigos de clima
+            const weatherCodes = {
+              0: { icon: "☀️", desc: "Despejado", color: "#f39c12" },
+              1: { icon: "🌤️", desc: "Mayormente despejado", color: "#f1c40f" },
+              2: { icon: "⛅", desc: "Parcialmente nublado", color: "#bdc3c7" },
+              3: { icon: "☁️", desc: "Nublado", color: "#95a5a6" },
+              45: { icon: "🌫️", desc: "Niebla", color: "#7f8c8d" },
+              48: { icon: "🌫️", desc: "Niebla con escarcha", color: "#95a5a6" },
+              51: { icon: "🌧️", desc: "Llovizna ligera", color: "#3498db" },
+              53: { icon: "🌧️", desc: "Llovizna moderada", color: "#2980b9" },
+              55: { icon: "🌧️", desc: "Llovizna densa", color: "#2471a3" },
+              61: { icon: "🌧️", desc: "Lluvia ligera", color: "#3498db" },
+              63: { icon: "🌧️", desc: "Lluvia moderada", color: "#2980b9" },
+              65: { icon: "🌧️", desc: "Lluvia fuerte", color: "#1a5276" },
+              71: { icon: "❄️", desc: "Nieve ligera", color: "#85c1e9" },
+              73: { icon: "❄️", desc: "Nieve moderada", color: "#aed6f1" },
+              75: { icon: "❄️", desc: "Nieve fuerte", color: "#d4e6f1" },
+              80: { icon: "🌧️", desc: "Chubascos ligeros", color: "#3498db" },
+              81: { icon: "🌧️", desc: "Chubascos moderados", color: "#2980b9" },
+              82: { icon: "🌧️", desc: "Chubascos fuertes", color: "#1a5276" },
+              95: { icon: "⛈️", desc: "Tormenta eléctrica", color: "#e94560" },
+              96: {
+                icon: "⛈️",
+                desc: "Tormenta con granizo",
+                color: "#c0392b",
+              },
+              99: {
+                icon: "⛈️",
+                desc: "Tormenta con granizo fuerte",
+                color: "#922b21",
+              },
+            };
+
+            const weather = weatherCodes[clima.weathercode] || {
+              icon: "🌡️",
+              desc: "Desconocido",
+              color: "#888",
+            };
+
+            container.innerHTML = `
+                        <div class="clima-card" style="border-bottom: 4px solid ${weather.color};">
+                            <span class="clima-icono">${weather.icon}</span>
+                            <div class="clima-ciudad">${ciudadNombre}</div>
+                            <div class="clima-temperatura">
+                                ${clima.temperature}°<span>C</span>
+                            </div>
+                            <div style="color: ${weather.color}; font-size: 1.2rem; font-weight: 600; margin-top: 0.3rem;">
+                                ${weather.desc}
+                            </div>
+                            <div class="clima-detalles">
+                                <div class="clima-detalle">
+                                    <div class="label">💨 Viento</div>
+                                    <div class="value">${clima.windspeed} km/h</div>
+                                </div>
+                                <div class="clima-detalle">
+                                    <div class="label">🧭 Dirección</div>
+                                    <div class="value">${clima.winddirection || "N/A"}°</div>
+                                </div>
+                                <div class="clima-detalle" style="grid-column: 1 / -1;">
+                                    <div class="label">🌡️ Sensación térmica</div>
+                                    <div class="value">${clima.temperature}°C</div>
+                                </div>
+                            </div>
+                            <div class="clima-actualizacion">
+                                📅 Actualizado: ${new Date().toLocaleString()}
+                            </div>
+                        </div>
+                    `;
+          })
+          .catch((error) => {
+            container.innerHTML = `
+                        <div class="error-container">
+                            <span class="error-icon">🚨</span>
+                            <h3>Error al cargar el clima</h3>
+                            <p style="color:#888;">${error.message}</p>
+                            <button onclick="cargarClima()" style="margin-top:1rem; padding:0.7rem 2rem; background:#e94560; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:700;">
+                                🔄 Reintentar
+                            </button>
+                        </div>
+                    `;
+            console.error("Error:", error);
+          });
+      }
+
+      // Cargar clima al iniciar
+      document.addEventListener("DOMContentLoaded", cargarClima);
+
+      function cerrarSesion() {
+        if (confirm("¿Cerrar sesión?")) {
+          sessionStorage.removeItem("userLogged");
+          sessionStorage.removeItem("username");
+          window.location.href = "../login.html";
+        }
+      }
+    </script>
   </body>
 </html>
